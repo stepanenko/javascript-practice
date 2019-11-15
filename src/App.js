@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Todos from './Components/Todos';
 
 import './App.css';
+import Header from './Components/layout/Header';
+import AddTodo from './Components/AddTodo';
 
 class App extends Component {
   state = {
@@ -40,13 +42,21 @@ class App extends Component {
     })]});
   }
 
+  addTodo = (title) => {
+    console.log(title);
+  }
+
   render() {
     return (
       <div className="App">
-        <Todos
-          todos={this.state.todos}
-          toggleComplete={ this.toggleComplete }
-          delTodo={ this.delTodo }/>
+        <div className="container">
+          <Header></Header>
+          <AddTodo title={this.addTodo}></AddTodo>
+          <Todos
+            todos={this.state.todos}
+            toggleComplete={ this.toggleComplete }
+            delTodo={ this.delTodo }/>
+        </div>
       </div>
     );
   }
