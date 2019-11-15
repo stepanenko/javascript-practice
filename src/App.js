@@ -1,26 +1,30 @@
 
 import React, { Component } from 'react';
-import Todos from './Components/Todos';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import uuid from 'uuid';
 
-import './App.css';
+import Todos from './Components/Todos';
 import Header from './Components/layout/Header';
 import AddTodo from './Components/AddTodo';
+import About from './Components/pages/About';
+
+import './App.css';
 
 class App extends Component {
   state = {
     todos: [
       {
-        id: 1,
+        id: uuid.v4(),
         title: 'Take out the trash',
         completed: false
       },
       {
-        id: 2,
+        id: uuid.v4(),
         title: 'Dinner with a friend',
         completed: false
       },
       {
-        id: 3,
+        id: uuid.v4(),
         title: 'Read article on React',
         completed: false
       },
@@ -43,21 +47,35 @@ class App extends Component {
   }
 
   addTodo = (title) => {
-    console.log(title);
+    const newTodo = {
+      id: uuid.v4(),
+      title,
+      completed: false
+    }
+    this.setState({ 
+      todos: [...this.state.todos, newTodo]
+    });
   }
 
   render() {
     return (
-      <div className="App">
-        <div className="container">
-          <Header></Header>
-          <AddTodo title={this.addTodo}></AddTodo>
-          <Todos
-            todos={this.state.todos}
-            toggleComplete={ this.toggleComplete }
-            delTodo={ this.delTodo }/>
+      <Router>
+        <div className="App">
+          <div className="container">
+            <Header />
+            <Route exact path="/" render={props => (
+              <React.Fragment>
+                <AddTodo addTodo={ this.addTodo } />
+                <Todos
+                  todos={ this.state.todos }
+                  toggleComplete={ this.toggleComplete }
+                  delTodo={ this.delTodo } />
+              </React.Fragment>
+            )} />
+            <Route path="/about" component={About} />   
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
