@@ -10,5 +10,5 @@ export default function About() {
         It is part of Brad's react crash course.
       </p>
     </React.Fragment>
-  )
+  );
 }
