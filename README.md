@@ -1,4 +1,6 @@
 
-## Scotch Angular First App
+## JS Practice Code
 
-Updated all on 9.05.2021
+Created on 31.07.2021
+
+> Todo: Move my code from javascript-info repo here
