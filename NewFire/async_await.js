@@ -1,5 +1,5 @@
 
-function timeoutPromise(interval) {
+function someAsyncJob(interval) {
     return new Promise((resolve, reject) => {
         setTimeout(function () {
             resolve("done");
@@ -11,26 +11,26 @@ function timeoutPromise(interval) {
 // Each subsequent one is forced to wait until the last one finished.
 // Takes around 9 seconds to complete.
 async function timeTestSlow() {
-    await timeoutPromise(3000);
-    await timeoutPromise(3000);
-    await timeoutPromise(3000);
+    await someAsyncJob(3000);
+    await someAsyncJob(3000);
+    await someAsyncJob(3000);
 }
 
 // FAST
 // Here all promises started processing at the same time,
 // the promises will all fulfill at the same time. Takes around 3 seconds to complete.
 async function timeTestFast() {
-    const timeoutPromise1 = timeoutPromise(3000);
-    const timeoutPromise2 = timeoutPromise(3000);
-    const timeoutPromise3 = timeoutPromise(3000);
+    const timeoutPromise1 = someAsyncJob(3000);
+    const timeoutPromise2 = someAsyncJob(3000);
+    const timeoutPromise3 = someAsyncJob(3000);
 
     await timeoutPromise1;
     await timeoutPromise2;
     await timeoutPromise3;
 }
 
-async function timeTestAll() {
-    const timeoutsArray = [timeoutPromise(3000), timeoutPromise(3000), timeoutPromise(3000)];
+async function timeTestWithPromiseAll() {
+    const timeoutsArray = [someAsyncJob(3000), someAsyncJob(3000), someAsyncJob(3000)];
 
     await Promise.all(timeoutsArray);
 }
@@ -50,12 +50,11 @@ timeTestFast().then(() => {
 });
 
 let startTime3 = Date.now();
-timeTestFast().then(() => {
+timeTestWithPromiseAll().then(() => {
     let finishTime = Date.now();
     let timeTaken = finishTime - startTime3;
     console.log("Time 3 taken in milliseconds: " + timeTaken);
 });
-
 
 
 // If ran you get:
